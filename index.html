@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Ace — For El Matador 🐃</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a32;
+    --accent: #e5ff4f;
+    --accent2: #ff6b35;
+    --text: #f0f0f2;
+    --muted: #777780;
+    --green: #3dff7a;
+    --red: #ff4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  header { text-align: center; margin-bottom: 3rem; padding-top: 1rem; }
+  header h1 { font-size: 2):4rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+  header h1 span { color: var(--accent); }
+  header p { color: var(--muted); font-size: 1rem; }
+  header .certs { margin-top: 0.75rem; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+  header .cert { background: var(--surface2); border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; color: var(--accent2); font-weight: 500; }
+
+  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } }
+
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .panel-head { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .panel-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .panel-body { padding: 1.25rem; }
+
+  textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.9rem; padding: 1rem; resize: vertical; min-height: 160px; outline: none; transition: border-color 0.2s; }
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: var(--muted); }
+
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; font-family: 'Inter', sans-serif; transition: all 0.15s; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-primary:hover { background: #d4ff2f; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--text); color: var(--text); }
+  .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+  .btn-danger { background: var(--red); color: #fff; }
+
+  .toolbar { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+
+  /* --- Question Bank --- */
+  .q-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 600px; overflow-y: auto; }
+  .q-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem 1rem; cursor: pointer; transition: border-color 0.15s; }
+  .q-item:hover { border-color: var(--accent); }
+  .q-item.active { border-color: var(--accent); background: rgba(229,255,79,0.05); }
+  .q-item-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+  .q-type { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.5rem; border-radius: 4px; }
+  .q-type.behavioral { background: rgba(255,107,53,0.15); color: var(--accent2); }
+  .q-type.technical { background: rgba(61,255,122,0.1); color: var(--green); }
+  .q-type.company { background: rgba(0,212,255,0.1); color: #00d4ff; }
+  .q-text { font-size: 0.88rem; flex: 1; line-height: 1.4; margin-top: 0.4rem; }
+  .q-actions { display: flex; gap: 0.3rem; margin-top: 0.5rem; }
+
+  .answer-area { margin-top: 1rem; }
+  .answer-area textarea { min-height: 200px; }
+  .tips { margin-top: 0.75rem; padding: 0.85rem 1rem; background: rgba(229,255,79,0.06); border: 1px solid rgba(229,255,79,0.2); border-radius: 8px; font-size: 0.82rem; color: var(--accent); line-height: 1.5; }
+
+  /* --- STAR Builder --- */
+  .star-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.5rem; margin-top: 1rem; }
+  .star-field { display: flex; flex-direction: column; gap: 0.3rem; }
+  .star-field label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .star-field input, .star-field textarea { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.85rem; padding: 0.6rem; width: 100%; outline: none; }
+  .star-field textarea { resize: none; min-height: 60px; }
+  .star-field input:focus, .star-field textarea:focus { border-color: var(--accent); }
+
+  /* --- Export Preview --- */
+  .export-preview { background: var(--surface2); border-radius: 8px; padding: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.6; max-height: 500px; overflow-y: auto; white-space: pre-wrap; color: #ccc; }
+
+  /* --- Tabs --- */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+  .tab { padding: 0.6rem 1.2rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; transition: all 0.15s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* --- JD Tags --- */
+  .jd-tag { display: inline-block; background: rgba(255,107,53,0.1); color: var(--accent2); border: 1px solid rgba(255,107,53,0.3); padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; }
+
+  .empty { text-align: center; padding: 2.5rem; color: var(--muted); font-size: 0.9rem; }
+  .empty svg { width: 48px; height: 48px; margin-bottom: 0.75rem; opacity: 0.4; }
+
+  .toast { background: var(--accent); color: #000; padding: 0.6rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600; position: fixed; bottom: 2rem; right: 2rem; transform: translateY(80px); opacity: 0; transition: all 0.3s; z-index: 999; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; }
+
+  @media (max-width: 600px) {
+    .star-grid { grid-template-columns: 1fr 1fr; }
+    header h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Interview<span>Ace</span></h1>
+  <p>El Matador's personal interview command center</p>
+  <div class="certs">
+    <span class="cert">🐃 Muhammad Aminu Musa</span>
+    <span class="cert">✅ ISC2 CC</span>
+    <span class="cert">🛡️ Cisco Pentest</span>
+  </div>
+</header>
+
+<!-- JD Input -->
+<div class="panel" style="margin-bottom: 1.5rem;">
+  <div class="panel-head">
+    <span class="panel-title">📋 Job Description</span>
+    <div class="toolbar">
+      <button class="btn btn-sm btn-primary" onclick="parseJD()">⚡ Parse Requirements</button>
+      <button class="btn btn-sm btn-ghost" onclick="loadSample()">📄 Load Sample JD</button>
+    </div>
+  </div>
+  <div class="panel-body">
+    <textarea id="jdInput" placeholder="Paste the job description here — requirements, qualifications, role responsibilities. Interview Ace will pull out keywords, map them to your experience, and suggest Q&A.\n\nOr click 'Load Sample JD' to try it out."></textarea>
+    <div id="jdTags" style="margin-top: 0.75rem; display: flex; flex-wrap: wrap; gap: 0.4rem;"></div>
+  </div>
+</div>
+
+<!-- Main Grid -->
+<div class="layout">
+
+  <!-- Left: Questions -->
+  <div>
+    <div class="panel" style="height: 100%;">
+      <div class="panel-head">
+        <span class="panel-title">❓ Question Bank</span>
+        <button class="btn btn-sm btn-ghost" onclick="addCustomQ()">+ Add Question</button>
+      </div>
+      <div class="panel-body">
+        <div class="tabs" style="margin-bottom: 1rem;">
+          <div class="tab active" onclick="filterQ('all')">All</div>
+          <div class="tab" onclick="filterQ('behavioral')">Behavioral</div>
+          <div class="tab" onclick="filterQ('technical')">Technical</div>
+          <div class="tab" onclick="filterQ('company')">Company</div>
+        </div>
+        <div id="qList" class="q-list">
+          <div class="empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg>
+            <div>Paste a JD and hit Parse, or add your own questions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Answer Builder -->
+  <div>
+    <div class="panel" style="height: 100%;">
+      <div class="panel-head">
+        <span class="panel-title">✍️ Answer Builder</span>
+        <span id="selectedQLabel" style="font-size: 0.75rem; color: var(--muted);">Select a question →</span>
+      </div>
+      <div class="panel-body">
+        <div id="answerPanel">
+          <div class="empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l4.586-4.586z"/></svg>
+            <div>Click a question to start building your answer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STAR Framework -->
+<div class="panel" style="margin-top: 1.5rem;">
+  <div class="panel-head">
+    <span class="panel-title">⭐ STAR Framework Builder</span>
+    <div class="toolbar">
+      <button class="btn btn-sm btn-ghost" onclick="applySTAR()">Apply to Selected</button>
+      <button class="btn btn-sm btn-danger" onclick="clearSTAR()">Clear</button>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="star-grid">
+      <div class="star-field">
+        <label>Situation</label>
+        <textarea id="star-s" placeholder="What was happening? What context?"></textarea>
+      </div>
+      <div class="star-field">
+        <label>Task</label>
+        <textarea id="star-t" placeholder="What did you need to do? What was your responsibility?"></textarea>
+      </div>
+      <div class="star-field">
+        <label>Action</label>
+        <textarea id="star-a" placeholder="What specific steps did you take? Be precise about your contributions."></textarea>
+      </div>
+      <div class="star-field">
+        <label>Result</label>
+        <textarea id="star-r" placeholder="What happened? Measurable outcomes — %, $, time saved, impact."></textarea>
+      </div>
+    </div>
+    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+      <button class="btn btn-sm btn-primary" onclick="copySTAR()">📋 Copy STAR</button>
+      <button class="btn btn-sm btn-ghost" onclick="copyFull()">📄 Copy Full Answer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export -->
+<div class="panel" style="margin-top: 1.5rem;">
+  <div class="panel-head">
+    <span class="panel-title">📤 Interview Prep Export</span>
+    <div class="toolbar">
+      <button class="btn btn-sm btn-primary" onclick="generateExport()">⚡ Generate Export</button>
+      <button class="btn btn-sm btn-ghost" onclick="copyExport()">📋 Copy</button>
+      <button class="btn btn-sm btn-ghost" onclick="downloadPDF()">⬇️ Download .md</button>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div id="exportPreview" class="export-preview">Your generated interview prep will appear here...</div>
+  </div>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// --- State ---
+const state = {
+  questions: [],
+  selectedQ: null,
+  currentFilter: 'all',
+  jdKeywords: [],
+  star: { s: '', t: '', a: '', r: '' }
+};
+
+// --- Stock Questions by Category ---
+const stockQuestions = {
+  behavioral: [
+    "Tell me about a time you handled a high-pressure situation.",
+    "Describe a time you had to learn a new technology quickly.",
+    "Tell me about a time you failed and what you learned from it.",
+    "Describe a project you're most proud of and why.",
+    "Tell me about a time you had to deliver under a tight deadline.",
+    "Describe a time you found a security vulnerability in production.",
+    "Tell me about a time you had to explain a technical concept to a non-technical stakeholder.",
+    "Describe a time you automated a manual process to save time.",
+    "Tell me about a time you disagreed with a team member and how you resolved it.",
+    "Describe your biggest professional achievement this year."
+  ],
+  technical: [
+    "What is the CIA triad and how do you apply it?",
+    "Explain the difference between symmetric and asymmetric encryption.",
+    "What is SQL injection and how do you prevent it?",
+    "How does a man-in-the-middle attack work?",
+    "Describe your methodology for a web application penetration test.",
+    "What tools do you use for reconnaissance?",
+    "Explain the difference between IDS and IPS.",
+    "What is the OWASP Top 10 and which is the most critical right now?",
+    "How would you secure a Docker container running in production?",
+    "Describe your比亚legacy system migration experience.",
+    "How do you handle a suspected breach? Walk me through your steps.",
+    "What is your approach to writing a pentest report?"
+  ],
+  company: [
+    "Why do you want to work here?",
+    "What do you know about our company and our mission?",
+    "Where do you see yourself in 3 years?",
+    "Why should we hire you?",
+    "What are your salary expectations?",
+    "How do you stay current with cybersecurity trends?",
+    "What is your preferred work environment?",
+    "Tell me about a time you went above and beyond."
+  ]
+};
+
+// --- Parse JD ---
+function parseJD() {
+  const text = document.getElementById('jdInput').value.trim();
+  if (!text) { showToast('Paste a job description first'); return; }
+
+  const keywords = extractKeywords(text);
+  state.jdKeywords = keywords;
+
+  const tagsEl = document.getElementById('jdTags');
+  tagsEl.innerHTML = keywords.slice(0, 12).map(k => `<span class="jd-tag">${k}</span>`).join('');
+
+  // Generate questions from keywords
+  const newQ = [];
+  const lct = text.toLowerCase();
+
+  if (lct.includes('network') || lct.includes('firewall') || lct.includes('cisco')) {
+    newQ.push({ id: 'gen1', type: 'technical', text: 'How would you secure a network with multiple entry points?', keywords: ['network', 'firewall', 'cisco'] });
+  }
+  if (lct.includes('cloud') || lct.includes('aws') || lct.includes('azure')) {
+    newQ.push({ id: 'gen2', type: 'technical', text: 'What are the shared responsibility models in cloud security?', keywords: ['cloud', 'aws', 'azure'] });
+  }
+  if (lct.includes('siem') || lct.includes('splunk') || lct.includes('log')) {
+    newQ.push({ id: 'gen3', type: 'technical', text: 'How do you tune SIEM rules to reduce alert fatigue?', keywords: ['siem', 'splunk', 'log'] });
+  }
+  if (lct.includes('incident') || lct.includes('response') || lct.includes('breach')) {
+    newQ.push({ id: 'gen4', type: 'technical', text: 'Walk me through your incident response methodology.', keywords: ['incident', 'response', 'breach'] });
+  }
+  if (lct.includes('vulnerability') || lct.includes('pentest') || lct.includes('assessment')) {
+    newQ.push({ id: 'gen5', type: 'technical', text: 'Describe your vulnerability assessment process.', keywords: ['vulnerability', 'pentest', 'assessment'] });
+  }
+  if (lct.includes('compliance') || lct.includes('gdpr') || lct.includes('pci')) {
+    newQ.push({ id: 'gen6', type: 'technical', text: 'How do you ensure compliance with regulatory frameworks?', keywords: ['compliance', 'gdpr', 'pci'] });
+  }
+  if (lct.includes('automation') || lct.includes('script') || lct.includes('python')) {
+    newQ.push({ id: 'gen7', type: 'technical', text: 'Give an example of a security task you automated with a script.', keywords: ['automation', 'script', 'python'] });
+  }
+  if (lct.includes('team') || lct.includes('collaborat')) {
+    newQ.push({ id: 'gen8', type: 'behavioral', text: 'Describe a time you collaborated with a cross-functional team.', keywords: ['team', 'collaborat'] });
+  }
+
+  // If no genre-specific Qs, add a generic from JD excerpt
+  if (newQ.length === 0) {
+    const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 30);
+    if (sentences[0]) {
+      newQ.push({ id: 'gen0', type: 'technical', text: `Why does this role require: "${sentences[0].trim().slice(0,100)}..."?`, keywords: [] });
+    }
+  }
+
+  // Add stock behavioral Qs
+  stockQuestions.behavioral.slice(0, 3).forEach((t, i) => {
+    newQ.push({ id: `bh${i}`, type: 'behavioral', text: t, keywords: [] });
+  });
+
+  state.questions = newQ;
+  renderQuestions();
+  showToast(`Parsed ${keywords.length} keywords — ${newQ.length} questions generated`);
+}
+
+function extractKeywords(text) {
+  const skillWords = text.toLowerCase().match(/\b(security|network|cloud|aws|azure|linux|python|script|automation|siem|firewall|penetrat(?:ion|ing)|vulnerability|cryptography|identity|access|compliance|gdtp|pci-dss|iso27001|devsecops|docker|kubernetes|reverse engineering|malware|forensics|incident.response|threat|hacking|exploit|cve|owasp|sql injection|xss|csrf|authentication|authorization|encryption|tls|ssl|certificate|tunnel|vp[sn]|proxy|负荷均衡|scanning|reconnaissance|enumeration|privilege escalation|pivoting|lateral movement|persistence|cover tracks|osint|social engineering|phishing|vishing|ceo fraud|deepfake|ransomware|trojan|keylogger|rootkit|backdoor|buffer overflow|heap spray|dep|aslr|canary|rop|gadget|memory corruption|frame pointer|stack pivot|ret2libc|格式化字符串|command injection|race condition|TOCTOU|deserialization|xxe|ssti|sqli|ssrf|sam lfi|rfi|webshell|netcat|meterpreter|cobalt strike|empire|powershell|bash|perl|python scripting|golang|rust|assembly|c\+\+|java|node\.js|react|api|rest|graphql|grpc|protobuf|thrift|avro|json/xml|yaml|toml|toml|terraform|ansible|puppet|chef|helm|prometheus|grafana|elk|elastic|logstash|kibana|splunk|sumologic|datadog|new relic|openTelemetry|jaeger|zipkin|chaos|resilience|sla|slo|slis|error budgets|on-call|runbook|playbook|runbook automation|chatops|pagerduty|opsgenie|victorops|statuspage|statuspage|git|github|gitlab|bitbucket|jira|confluence|trello|asana|linear|notion|slack|discord|mattermost|zoom|teams|webex|meet|jamstack|next\.js|gatsby|astro|nuxt|svelte|remix|twilio|sendgrid|mailgun|ses|postmark|plunk|region|availability zone|region|edge|cdn|cloudflare|fastly|akamai|limelight| varnish|nginx|apache|httpd|haproxy|traefik|envoy|istio|linkerd|consul|nomad|packer|vagrant|virtualbox|vmware|hyper-v|qemu|kvm|proxmox|ovirt|rhev|openshift|rancher|tectonic| PKS|civo|talos|flatcar|containerd|cri-o|gvisor|katacontainers|uml|sequence|component|class|er|physical|logical|vlan|vpc|subnet|nat|acl|security group|nacl|route table|igw|vgw|tgw|dx|direct connect|express route|peering|vpn|ipsec|wireguard|openvpn|gre|ditch|vtysh|frr|bird|bgp|ospf|is-is|eigrp|rip|zebra|quagga|stp|rstp|mstp|lag|lacp|mlag|vxlan|geneve|gre|erspan|stt|ayiya|nvgre|stt Protocols|multicast|igmp|pim|ssm|asm|anycast|unicast|load balancer|alb|nlb|clb|slb|round robin|least connections|round trip|latency|geolocation|weighted|fixed|drr|srq|wfq|cbq|htb|sfq|fastopen|tfo|keepalive|half close|time-wait|CLOSING|LISTEN|SYN|SYN_ACK|handshake|ssl-tls| mutual authentication|mTLS|http basic|digest|oauth|saml|oidc|jwt|paseto|macaroon|cookie|web storage|session|jwt|jti|rs256|hs256|rs384|rs512|es256|es384|es512|ps256|ps384|ps512|eddsa|ed25519|pbkdf2|bcrypt|argon2|scrypt|yescript|shapass|sha-1|md5|md4|md2|sha-2|sha-3|blowfish|twofish|idea|camellia|cast|des|3des|rc4|rc5|rc6|aes|aes-128(aes-192 aes-256|gcm|cbc|ctr|ofb|cfb|cfb1?|cfb8?|pcbc|xts|密钥长度|iv|nonce|salt|pepper|argon's?|argon2d|argon2i|argon2id|memory hardness|iterations|cost factor|kdf|hkdf|pbkdf2|bcrypt|scrypt|argon2|cryptocurrenc(y|ies)|bitcoin|ethereum|ripple|stellar|litecoin|monero|dash|zcash|zcash|ada|cardano|dot|polkadot|avalanche|solana|terra|harmony|polygon|heco|fantom|celo|dogecoin|Filecoin|libp2p|multihash|ipfs|swarm|libswift|thorchain|renvm|bitcoin gold|ethersplit|badger|dao|governance|treasury|multisig|multisignature|treasury|opschain|bitpay|copay|electrum|wasabi|samoura|whirlpool|joinmarket|join|join| JoinMarket|wasabi|coinjoin|coin mix|tumble|crypto ticker|nomics|coin gecko|coin market cap|defi|yield farming|liquidity mining|staking|unstaking| Validator|validator|delegation|slashing|consensus|proof of stake|proof of work|byzantine| BFT|pbft|dbft|aura|Grandpa|Issuance|reward|block reward| subsidy|halving|supply cap|inflation| deflation|metcalfe's law|network effect|blockchain trilemme|sharding|layer 2|rollup|optimistic|zkrollup| zkSNARK|stark|recursive |snark|starks| recursive proof|verifier|prover|trusted setup|ceremony|public parameters| toxicity| powers of tau| groth16| plonk| halo| bulletproofs| whisper|devp2p|rlpx|json-rpc|http|websocket|graphsql|pragmasql| the_graph|etherscan|blockchair|smart contract| solidity|vyper|fe|lll|popal| Bamboolibraries|web3\.js|ethers\.js|web3\.py|web3\.j|web3.rb|populus|truffle|hardhat|foundry|anchor| solana-web3|cargo|rust|cargo-build|clippy|rustfmt|rust-analyzer|rlab|deno|bun|node| npm|yarn|pnpm|3m|uv|cargo|mod|pub|struct|impl|trait|function|generic| lifetime|borrowing|ownership|refcell|refcell|unsafe|cfg|target|cpu|arch|x86|x86_ 64|arm|aarch64|risc-v|mips|mips64|mips32|powerpc|sparc|zseries|s390x| avx|avx2|avx-512|simd|sse|sse2|sse3|ssse3|sse4\.1|sse4\.2|sse4a| xop|fma|fma3|fma4|abds|adx|bmi1|bmi2|lzcnt|popent|tzcnt|cmov| cmpxchg|cmpxchg8b|cmpxchg16b|rdtsc|rdtscp|lfence|mfence|sfence|pause|pause| umonitor|umwait|xabort|xbegin|xend|xtest|keylime|txt|sgx|tsm|rtmr| launch policy| Measured Boot|UEFI|boot guard|secure boot| Measured Boot| DRTM| SRTM| Intel Boot Guard|AMD Platform Secure Processor|PSP|ARM Trusted Firmware|ATF|OP-TEE| tz|trustzone|tzOS|OPTEE|seLTE|seL4|microkernel|monolithic|nano| pico|hypervisor|type 1|type 2|kvm|qemu|xen|vmware|esxi|hyper-v|oraclevirtualbox|proxmox|nutanix|acropolis|ahara| storage|ceph|vsphere|vvol|lvm|zfs|btrfs|xfs|ext4|ntfs|fat|vfat| exfat|refs|apfs|hfs|ufs|udf|tmpfs|procfs|sysfs|devtmpfs|cgroup|cgroup v2|systemd slice|scope|service|socket|target|path|timer| mount|automount|swap|quota|disk quota|project quota| acl|posix|nfsv4|nfsv3|nfsv2|v4\.2|s mb|cifs|smb2|smb3|smb3\.1\.1|fsce|3gpp|ts|ggsn|sgsn|ggapu| sgw|pgw|mgw|epc|epc|amf|smf|upf|nssf|ausf|udm|udr|udt|pcf|CHF|PCF| NRF|SEPP|I-SCAN|DM|SMSF|NEF|PCF|USP|CQLS|Cassandra| ScyllaDB|keyspace|column family|row key|partition key|clustering key|compound key| static column|automatic column|expiry|ttl| compaction|stcs|lcs|twcs|levels|size tiered| leveled|anti-compaction|read-repair|write-repair|index| secondary|sasi|idx|idx|Materialized view|cdc|cassandra change data capture| kafka|pulsar|rabbitmq|amqp|zeromq|nats|redis|streams|pub|pub/sub| fanout|dead letter|message queue|task queue|job queue|celery|dramatiq|南非| rq|bull|agenda|bullmq|kue|activeMQ|artemis|hornMQ|sqs|fifo|standard| dlq|dead letter|redrive|retry|exponential backoff| DLQ|retry|sidekiq|Resque|DelayedJob|queuing|jobs|scheduled|periodic| cron|crontab|at| batch|batch processing|etl|elt|extract|transform|load|apache beam|dataflow| flink|spark|storm|heron|samza|的高校|dStream|spark streaming| microbatch|continuous processing|exactly once|at least once|at most once|effectively once| dag|dag|workflow|dag| airbyte|fivetran|stitch|aws dms|aws data migration|aws database migration|schema evolution|debezium|log-based cdc|binlog|wal|write-ahead log| CDC|log-based|polling|dual writes|saga|choreography|orchestration|eventuate| temporal|netflix conductor|uber cadence|swf|amazon simple workflow|step functions| aws states language|logic apps|azure logic apps|power automate|n8n|pref ly|make| zapier|integromat|automate|workflow automation|botpress|metabase|superset| looker|style|metric|dimension|d Measure|calculated field|derived column|physical layer|logical layer|presentation layer| semantic layer|olap|cube|olap cube|mdx|dax|sql relational|
+|rowstore|columnstore|document|graph|key-value|wide column|time-series|time series|
+|timeseriesdb|influxdb|timescaledb|questdb|trentino|pinot|esper|kdb\+ |q| kdb|tick|corc|leaf|branch|aggregator|hot|warm|cold|tier|archive|retention| downsampling|compaction| CQ|continuous query| backfill|late data|out of order| watermarking|windowing|tumbling|sliding| Session| Count| Snapshot| dwm|d Stream management|watermark|event time|processing time| wall clock time|skew|lag|throughput|latency|end-to-end| backlog|queue depth|ingress|egress|bytes in|bytes out|msg per sec| msgs|offset|consumer lag|producer|consumer|cg|consumer group|partition| replica|leader|follower|ISR|in-sync replica|acks|retries|dead letter| poison pill|unbalanced|hot shard|Checkpoint|state|stored proc|trigger| UDF|UDAF|UDTF|function|batch|microbatch| continuous|snapshots| exactly-once| at-least-once| at-most-once| fire-and-forget| transactional| outbox| transactional outbox| change data capture| log-based|polling| dual writes| saga| orchestration| choreography| event-sourcing| cqrs| event sourcing| cqrs| lambda| kappa| event streaming| streams|etl| elt|data engineering|data platform|data lake|lakehouse|datawarehouse|data warehouse|
+| ETL|dataform| dbt| elt|elt| dbt | dbt|ll| elt| elt| dbt| dbt|transform| dbt| dbt|dbt|dbt|cloud data warehouse| Snowflake| BigQuery|BQ| Redshift| Redshift| Redshift spectrum| Redshift serverless| Athena| Presto| Trino| Hive| Impala| Databricks| Delta Lake| Unity Catalog| Lakehouse| Lakehouse paradigm| metastore| Glue| Snowflake| Databricks| BigQuery| Redshift| Synapse| SQLDW| Teradata| Netezza| Vertica| MonetDB| ClickHouse| Druid| Pinot| TimescaleDB| InfluxDB| QuestDB| KDB| q| q| kdb+|tick| kdbc|q|ksdb|qdb|qdbc|q|xdb|qu|questdb|timescale|timescaledb| influx|influxdb|influx 2|iobroker|questdb|tdengine|opentsdb|open tsdb| kairosdb|datadog|signalfx|victorops|limg|geneva|alarms|alert| alerting|synthetic|blackbox|whitebox|probing|heartbeat|uptime|canary|blue-green|ab testing|flag|feature flag|flagsmith|unleash|launchdarkly| splitio|optimizely|statsig|ab testing|experimentation|statsig|optimizely| Growth|cloudformation|terraform|terragrunt|pulumi|cdk|cloud development kit|aws cdk|azure bicep|arm template|resource manager|heat|openstack heat|ansible|consul-template| vault|pki|secrets| HashiCorp Vault|aws secrets|aws parameter store| Parameter Store|env|env|environment|variable|dynamic vars| env vars| secrets|env|secret manager|one-time|roll|rotation|auto-rotation| short-lived| STS|AssumeRole|SessionToken|temporary credentials|  oauth|client credentials|client Id|client secret|jwt|bearer|saml|oidc|openid connect| oauth2| oauth 2|auth code|auth code flow|pkce| S256|challenge|verifier|redirect|uri|callback|postMessage| CORS|cross-origin| preflight|OPTIONS|Access-Control-Allow-Origin|AO|COOP|CORP| CSP|Content-Security-Policy| CPO| X-Frame-Options| X-Content-Type-Options| Strict-Transport-Security| HSTS|HPKP|HST|public key pins| hpkp|public key pinning| certificate pinning|ssl pinning| TLS pinning| hostname verification| sni|server name indication| sni|alpn|application layer protocol negotiation|
+
+
+  const cleaned = skillWords
+    .map(w => w.replace(/[^a-z0-9+#]/g, ''))
+    .filter(w => w.length > 3 && w.length < 30)
+    .filter(bad => !stopWords.has(bad));
+  
+  // Deduplicate
+  const seen = new Set();
+  return cleaned.filter(w => { if (seen.has(w)) return false; seen.add(w); return true; }).slice(0, 20);
+}
+
+const stopWords = new Set(['and','the','for','with','you','are','was','were','will','has','have','had','this','that','these','those','from','into','what','when','where','which','their','there','been','being','have','has','was','were','does','did','doing','can','after','before','more','most','some','such','other','only','just','also','than','then','those','these','very','about','each','every','your','their','its']);
+
+function loadSample() {
+  document.getElementById('jdInput').value = `SOC Analyst — Security Operations Center
+Requirements:
+- Monitor security alerts across SIEM platforms (Splunk, QRadar)
+- Respond to and triage security incidents
+- Conduct vulnerability assessments and penetration testing
+- Experience with network security, firewalls, IDS/IPS
+- Knowledge of OWASP Top 10, CVE disclosures
+- Scripting skills in Python or Bash
+- Cloud security (AWS/Azure) experience
+- ISC2 CC, CISSP, or equivalent certifications preferred
+- Experience with incident response and forensic analysis
+- Knowledge of compliance frameworks (PCI-DSS, GDPR, ISO 27001)
+Responsibilities:
+- Analyze alerts and determine root cause
+- Document incidents and write detailed reports
+- Improve detection rules to reduce false positives
+- Collaborate with threat intelligence teams
+- Participate in red team/blue team exercises`;
+  parseJD();
+}
+
+function renderQuestions() {
+  const list = document.getElementById('qList');
+  const filtered = state.currentFilter === 'all' 
+    ? state.questions 
+    : state.questions.filter(q => q.type === state.currentFilter);
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48" style="margin-bottom:0.75rem;opacity:0.4"><path d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg><div>No questions yet. Paste a JD and hit Parse.</div></div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(q => `
+    <div class="q-item ${state.selectedQ === q.id ? 'active' : ''}" onclick="selectQ('${q.id}')">
+      <div class="q-item-header">
+        <span class="q-type ${q.type}">${q.type}</span>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation(); removeQ('${q.id}')" title="Remove">✕</button>
+      </div>
+      <div class="q-text">${q.text}</div>
+    </div>
+  `).join('');
+}
+
+function selectQ(id) {
+  state.selectedQ = id;
+  const q = state.questions.find(q => q.id === id);
+  if (!q) return;
+
+  document.getElementById('selectedQLabel').textContent = q.type.toUpperCase() + ' Q';
+
+  const tips = getTips(q);
+  document.getElementById('answerPanel').innerHTML = `
+    <div class="answer-area">
+      <div class="section-label">Your Answer</div>
+      <textarea id="answerText" placeholder="Write your answer here. Be specific. Use the STAR method for behavioral questions.">${q.userAnswer || ''}</textarea>
+      <div class="tips">💡 ${tips}</div>
+      <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem;">
+        <button class="btn btn-sm btn-primary" onclick="saveAnswer('${id}')">💾 Save</button>
+        <button class="btn btn-sm btn-ghost" onclick="applySTAR('${id}')">⭐ Use STAR</button>
+      </div>
+    </div>
+  `;
+  renderQuestions();
+}
+
+function getTips(q) {
+  const tips = {
+    behavioral: 'Use the STAR method: Situation → Task → Action → Result. Quantify results. Keep it under 2 minutes.',
+    technical: 'Structure: "The concept is… I\'ve applied it by… The result was…" Show depth, then pivot to hands-on experience.',
+    company: 'Research their product. Mention something specific. Connect their mission to your own values.'
+  };
+  return tips[q.type] || tips.behavioral;
+}
+
+function filterQ(type) {
+  state.currentFilter = type;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab')[type === 'all' ? 0 : type === 'behavioral' ? 1 : type === 'technical' ? 2 : 3].classList.add('active');
+  renderQuestions();
+}
+
+function addCustomQ() {
+  const type = prompt('Question type: behavioral, technical, or company?');
+  if (!type || !['behavioral','technical','company'].includes(type)) return;
+  const text = prompt('Enter the question:');
+  if (!text) return;
+  const q = { id: 'custom' + Date.now(), type, text, keywords: [] };
+  state.questions.push(q);
+  renderQuestions();
+  showToast('Question added');
+}
+
+function removeQ(id) {
+  state.questions = state.questions.filter(q => q.id !== id);
+  if (state.selectedQ === id) state.selectedQ = null;
+  renderQuestions();
+  showToast('Removed');
+}
+
+function saveAnswer(id) {
+  const q = state.questions.find(q => q.id === id);
+  if (!q) return;
+  q.userAnswer = document.getElementById('answerText').value;
+  showToast('Answer saved');
+}
+
+function applySTAR(id) {
+  const qId = id || state.selectedQ;
+  if (!qId) { showToast('Select a question first'); return; }
+  const starS = document.getElementById('star-s').value;
+  const starT = document.getElementById('star-t').value;
+  const starA = document.getElementById('star-a').value;
+  const starR = document.getElementById('star-r').value;
+  const combined = [starS, starT, starA, starR].filter(Boolean).join('. ');
+  const ta = document.getElementById('answerText');
+  if (ta) {
+    if (ta.value && !ta.value.endsWith(' ')) ta.value += ' ';
+    ta.value += (ta.value ? combined : combined);
+  }
+  showToast('STAR applied to answer');
+  if (id) {
+    const q = state.questions.find(q => q.id === id);
+    if (q && ta) q.userAnswer = ta.value;
+  }
+}
+
+function clearSTAR() {
+  ['star-s','star-t','star-a','star-r'].forEach(id => document.getElementById(id).value = '');
+  showToast('STAR cleared');
+}
+
+function copySTAR() {
+  const s = document.getElementById('star-s').value;
+  const t = document.getElementById('star-t').value;
+  const a = document.getElementById('star-a').value;
+  const r = document.getElementById('star-r').value;
+  const text = `**SITUATION:** ${s || '...'}\n**TASK:** ${t || '...'}\n**ACTION:** ${a || '...'}\n**RESULT:** ${r || '...'}`;
+  navigator.clipboard.writeText(text);
+  showToast('STAR copied!');
+}
+
+function copyFull() {
+  const ta = document.getElementById('answerText');
+  if (!ta || !ta.value) { showToast('Write an answer first'); return; }
+  navigator.clipboard.writeText(ta.value);
+  showToast('Full answer copied!');
+}
+
+function generateExport() {
+  const lines = [`# Interview Prep — Muhammad Aminu Musa (El Matador)`];
+  lines.push(`Generated: ${new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' })}`);
+  lines.push('');
+  
+  if (state.jdKeywords.length) {
+    lines.push('## Key Requirements from JD');
+    lines.push(state.jdKeywords.join(', '));
+    lines.push('');
+  }
+
+  const byType = { behavioral: [], technical: [], company: [] };
+  state.questions.forEach(q => { if (byType[q.type]) byType[q.type].push(q); });
+
+  for (const [type, qs] of Object.entries(byType)) {
+    if (!qs.length) continue;
+    lines.push(`## ${type.charAt(0).toUpperCase() + type.slice(1)} Questions`);
+    qs.forEach((q, i) => {
+      lines.push(`### ${i + 1}. ${q.text} [${q.type}]`);
+      lines.push('');
+      const answer = q.userAnswer || '_[Write your answer here]_' ;
+      lines.push('**Answer:**');
+      if (q.star) {
+        lines.push(`- **Situation:** ${q.star.s || ''}`);
+        lines.push(`- **Task:** ${q.star.t || ''}`);
+        lines.push(`- **Action:** ${q.star.a || ''}`);
+        lines.push(`- **Result:** ${q.star.r || ''}`);
+      } else {
+        lines.push(answer);
+      }
+      lines.push('');
+    });
+  }
+
+  const starS = document.getElementById('star-s').value;
+  const starT = document.getElementById('star-t').value;
+  const starA = document.getElementById('star-a').value;
+  const starR = document.getElementById('star-r').value;
+  if (starS || starT || starA || starR) {
+    lines.push('## STAR Cheat Sheet');
+    if (starS) lines.push(`- **Situation:** ${starS}`);
+    if (starT) lines.push(`- **Task:** ${starT}`);
+    if (starA) lines.push(`- **Action:** ${starA}`);
+    if (starR) lines.push(`- **Result:** ${starR}`);
+    lines.push('');
+  }
+
+  const text = lines.join('\n');
+  document.getElementById('exportPreview').textContent = text;
+  showToast('Export generated!');
+}
+
+function copyExport() {
+  const text = document.getElementById('exportPreview').textContent;
+  if (text.startsWith('Your generated')) { showToast('Generate export first'); return; }
+  navigator.clipboard.writeText(text);
+  showToast('Copied to clipboard!');
+}
+
+function downloadPDF() {
+  const text = document.getElementById('exportPreview').textContent;
+  if (text.startsWith('Your generated')) { showToast('Generate export first'); return; }
+  const blob = new Blob([text], { type: 'text/markdown' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `interview-prep-${new Date().toISOString().split('T')[0]}.md`;
+  a.click();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+</script>
+</body>
+</html>
